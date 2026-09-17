@@ -1,0 +1,140 @@
+{
+  "entities": {
+    "SystemMetadata": {
+      "title": "System Metadata",
+      "description": "Metadata for system synchronization and status",
+      "type": "object",
+      "properties": {
+        "lastSyncedAt": {
+          "type": "string",
+          "description": "Timestamp of the last sync operation"
+        },
+        "employeesCount": {
+          "type": "number",
+          "description": "Total number of employees synchronized"
+        },
+        "projectPlansCount": {
+          "type": "number",
+          "description": "Total number of project plans synchronized"
+        },
+        "candidatesCount": {
+          "type": "number",
+          "description": "Total number of candidate profiles synchronized"
+        },
+        "surveyResponsesCount": {
+          "type": "number",
+          "description": "Total number of survey responses synchronized"
+        },
+        "syncedBy": {
+          "type": "string",
+          "description": "User identifier who performed the sync"
+        }
+      }
+    },
+    "MainDataset": {
+      "title": "Main Application Dataset",
+      "description": "Primary synchronized dataset containing core records",
+      "type": "object",
+      "properties": {
+        "employees": {
+          "type": "array",
+          "description": "List of company employees"
+        },
+        "projectPlans": {
+          "type": "array",
+          "description": "List of project staffing and timeline plans"
+        },
+        "candidates": {
+          "type": "array",
+          "description": "List of candidate profiles and ratings"
+        },
+        "surveyForms": {
+          "type": "array",
+          "description": "List of survey definitions"
+        },
+        "surveyResponses": {
+          "type": "array",
+          "description": "List of survey response submissions"
+        },
+        "emailTemplates": {
+          "type": "array",
+          "description": "List of customized email dispatch templates"
+        },
+        "emailLogs": {
+          "type": "array",
+          "description": "Log of sent email notifications"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "User or client ID that performed the update"
+        }
+      }
+    },
+    "OrgAndPermissionsDataset": {
+      "title": "Org Structure and Permissions Dataset",
+      "description": "Synchronized organizational hierarchy and permission matrix",
+      "type": "object",
+      "properties": {
+        "orgTree": {
+          "type": "object",
+          "description": "Hierarchical tree structure of organization units"
+        },
+        "permissionMatrix": {
+          "type": "array",
+          "description": "Matrix of employee permissions and view access"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      }
+    },
+    "AssignmentSubmissionRecord": {
+      "title": "Assignment Submission Record",
+      "description": "Student assignment file submissions and grading records stored in Firestore",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique submission ID" },
+        "courseId": { "type": "string", "description": "Course identifier" },
+        "courseTitle": { "type": "string", "description": "Course title" },
+        "courseCode": { "type": "string", "description": "Course code" },
+        "batchNo": { "type": "string", "description": "Batch number" },
+        "empNo": { "type": "string", "description": "Student employee number" },
+        "studentName": { "type": "string", "description": "Student name" },
+        "department": { "type": "string", "description": "Student department" },
+        "fileName": { "type": "string", "description": "Assignment file name" },
+        "fileSize": { "type": "string", "description": "File size formatted string" },
+        "fileType": { "type": "string", "description": "File type classification (word, excel, powerpoint, pdf, image)" },
+        "fileData": { "type": "string", "description": "Stored file base64 data URI or preview payload" },
+        "notes": { "type": "string", "description": "Student practice notes and execution summary" },
+        "submittedAt": { "type": "string", "description": "Submission ISO timestamp" },
+        "status": { "type": "string", "description": "Status (submitted, graded, resubmit_requested)" },
+        "gradeStatus": { "type": "string", "description": "Grading status (pending, passed, failed, resubmit)" },
+        "gradeScore": { "type": "number", "description": "Numeric grade score (0-100)" },
+        "reviewerFeedback": { "type": "string", "description": "Instructor comments and grading feedback" },
+        "reviewerEmpNo": { "type": "string", "description": "Reviewer employee number" },
+        "reviewerName": { "type": "string", "description": "Reviewer name" },
+        "gradedAt": { "type": "string", "description": "Grading completion timestamp" },
+        "storageLocation": { "type": "string", "description": "Platform cloud storage location identifier" }
+      }
+    }
+  },
+  "firestore": {
+    "/system_metadata/{metaId}": {
+      "schema": "SystemMetadata",
+      "description": "System operational metadata and synchronization status"
+    },
+    "/app_datasets/{datasetId}": {
+      "schema": "MainDataset",
+      "description": "Core synchronized business application data shared across devices"
+    },
+    "/assignment_submissions/{submissionId}": {
+      "schema": "AssignmentSubmissionRecord",
+      "description": "Platform Firestore storage repository for student assignment files and grading"
+    }
+  }
+}

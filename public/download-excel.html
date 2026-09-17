@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>遠雄營造 - 三大戰情儀表板後台欄位規格與職稱變動評估報告 下載專區</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      max-width: 680px;
+      width: 100%;
+      padding: 36px;
+      border: 1px solid #e2e8f0;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 9999px;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 12px 0;
+      line-height: 1.4;
+    }
+    p.subtitle {
+      font-size: 14px;
+      color: #64748b;
+      margin: 0 0 24px 0;
+      line-height: 1.6;
+    }
+    .content-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 13.5px;
+      line-height: 1.7;
+    }
+    .content-box ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+      color: #334155;
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      background: #1e3a8a;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.2);
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+    .btn-download:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .tip {
+      font-size: 12px;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">遠雄營造 戰情決策平台檔案下載</div>
+    <h1>三大戰情儀表板後台欄位規格<br>& 專案職稱歷練變更評估報告</h1>
+    <p class="subtitle">檔案格式：Microsoft Excel 試算表 (.xlsx) ｜ 檔案大小：約 107 KB ｜ 版本：v1.0 正式評估版</p>
+
+    <div class="content-box">
+      <strong>📋 試算表包含 8 大核心工作表內容：</strong>
+      <ul>
+        <li><b>Sheet 1: 總覽與評估說明</b> - 職稱演變同步機制可行性深度分析與改善重點</li>
+        <li><b>Sheet 2: 開案計畫儀表板欄位規格</b> - 完整 28 項欄位代碼、型態、現狀與業務邏輯</li>
+        <li><b>Sheet 3: 案主管人才庫欄位規格</b> - 54 項人資、七大階段、前三案實績與職稱演變</li>
+        <li><b>Sheet 4: 案主管供需儀表板欄位規格</b> - 供需模型需求端/供給端計算公式與控制因子</li>
+        <li><b>Sheet 5: 職稱演變歷程與PK連動架構</b> - FG-TY10 案實例解析、TypeScript 介面規格</li>
+        <li><b>Sheet 6: 批次匯入範本-開案計畫</b> - 標準 28 欄匯入表頭與 5 筆工程實務資料</li>
+        <li><b>Sheet 7: 批次匯入範本-專案實績PK</b> - 前三案追加率、盈虧、客訴、職安罰款匯入表</li>
+        <li><b>Sheet 8: 批次匯入範本-職稱歷練意願</b> - 7大階段年資、可調動區域、工法與職稱演變表</li>
+      </ul>
+    </div>
+
+    <button id="downloadBtn" class="btn-download" onclick="triggerDownload()">
+      <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+      </svg>
+      立即下載 Excel 檔案 (.xlsx)
+    </button>
+    <div class="tip" id="statusTip">點擊按鈕將直接觸發瀏覽器下載儲存檔案</div>
+  </div>
+
+  <script>
+    // 預先載入 base64 內容
+    let base64Data = "";
+
+    async function loadData() {
+      try {
+        const res = await fetch('/excel_base64.txt');
+        if (res.ok) {
+          base64Data = (await res.text()).trim();
+        }
+      } catch (e) {
+        console.error("載入失敗", e);
+      }
+    }
+    loadData();
+
+    function triggerDownload() {
+      const fileName = "遠雄營造_三大戰情儀表板後台欄位規格與履歷職稱變更評估.xlsx";
+      if (base64Data) {
+        const byteCharacters = atob(base64Data);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        document.getElementById("statusTip").innerText = "✅ 下載已啟動，請檢查瀏覽器下載清單！";
+      } else {
+        // Fallback 直接導向
+        window.location.href = "/Farglory_Dashboard_Fields_and_Career_Evolution_Assessment.xlsx";
+      }
+    }
+
+    // 自動於 500ms 後嘗試觸發下載
+    setTimeout(() => {
+      if (base64Data) {
+        triggerDownload();
+      }
+    }, 600);
+  </script>
+</body>
+</html>

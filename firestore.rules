@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default open read/write for application collections in enterprise demo
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "遠雄營造HR儀表板",
+  "description": "遠雄營造HR戰情室：整合開案計畫儀表板、案場人力預測與供需戰情看板、案主管人才庫儀表板、案主管供需儀表板、意願問卷調查、專業訓練學習專區、後台履歷與證照管理，以及全域設定之可視化部門主管模組權限矩陣快速指派功能。",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,330 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   專屬防斷頁類別 (Avoid Page Break for PDF and Printing)
+   在所有儀表板的資料列表區塊（如表格 rows, 卡片容器）添加此 class，
+   確保匯出時表格行與關鍵看板區塊不會被截斷，表格行數過多時能平滑過渡
+   ========================================================================== */
+.pdf-block-avoid {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  -webkit-column-break-inside: avoid !important;
+}
+
+/* 獨立卡片/容器更嚴格邊距規則：設定上下邊距與內邊距，提供換頁平滑緩衝空間 */
+.pdf-block-avoid:not(tr):not(thead):not(tbody):not(td):not(th) {
+  break-inside: avoid-page !important;
+  page-break-inside: avoid !important;
+  -webkit-column-break-inside: avoid !important;
+  margin-top: 0 !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 8px !important;
+  box-sizing: border-box !important;
+}
+
+/* 表格專屬防斷頁與跨頁平滑過渡規則：防止單行表格跨頁顯示被腰斬/截斷 */
+table.pdf-block-avoid,
+.pdf-block-avoid table,
+table {
+  border-collapse: collapse;
+  page-break-inside: auto;
+  break-inside: auto;
+  width: 100%;
+}
+
+thead,
+thead.pdf-block-avoid {
+  display: table-header-group !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  break-after: avoid-page !important;
+}
+
+tbody,
+tbody.pdf-block-avoid {
+  display: table-row-group !important;
+  break-inside: auto !important;
+  page-break-inside: auto !important;
+}
+
+tr,
+tr.pdf-block-avoid,
+.pdf-block-avoid tr,
+tbody tr,
+thead tr {
+  display: table-row !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  -webkit-column-break-inside: avoid !important;
+  break-after: auto !important;
+  break-before: auto !important;
+  height: auto !important;
+}
+
+td,
+th,
+tr.pdf-block-avoid > td,
+tr.pdf-block-avoid > th,
+.pdf-block-avoid td,
+.pdf-block-avoid th {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+/* PDF 截圖測量模式：確保在測量階段即隱藏非列印元素，避免高度位移，保留數據卡片內容，並展開內部滾動容器 */
+.pdf-measuring-mode .no-print,
+.pdf-measuring-mode .print-hide,
+.pdf-measuring-mode .hidden-for-pdf,
+.pdf-measuring-mode [data-html2canvas-ignore="true"],
+.pdf-measuring-mode .fixed,
+.pdf-measuring-mode [role="dialog"],
+.pdf-measuring-mode [role="menu"] {
+  display: none !important;
+}
+
+.pdf-measuring-mode .overflow-y-auto,
+.pdf-measuring-mode .overflow-x-auto,
+.pdf-measuring-mode .overflow-auto {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+/* ==========================================================================
+   A3 橫向 (Landscape) 列印與 PDF 匯出專用 CSS (@media print)
+   鎖定 A3 橫向尺寸 420mm x 297mm，強制卡片與表格區塊完整跨頁，杜絕半截切斷
+   ========================================================================== */
+
+@page {
+  size: A3 landscape;
+  margin: 10mm 8mm 18mm 8mm; /* 左右邊距縮減至 8mm，底部邊距增加至 18mm 確保頁尾資訊不被裁切 */
+}
+
+@media print {
+  /* @page 邊距規則：左右邊距縮減至 8mm，並增加底部邊距以確保頁尾資訊不會被裁切 */
+  @page {
+    size: A3 landscape;
+    margin: 10mm 8mm 18mm 8mm;
+  }
+  /* 1. 全局強制色彩與背景列印 */
+  *,
+  *::before,
+  *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* 2. 重設容器高度與滾動條，允許自然分頁 */
+  html,
+  body {
+    width: 1480px !important;
+    min-width: 1480px !important;
+    max-width: 1480px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background-color: #f8fafc !important;
+    font-size: 12px !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  #root,
+  .h-screen,
+  .w-screen,
+  .h-full,
+  .overflow-hidden,
+  .overflow-y-auto,
+  main {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  /* 3. 當前儀表板容器 ID (print-content-container) 強制顯式定義 */
+  #print-content-container,
+  #project-plan-dashboard-content,
+  #candidate-talent-dashboard-content,
+  #quarterly-demand-dashboard-content,
+  #candidate-pk-export-container,
+  #candidate-full-profile-export-container,
+  #candidate-project-score-export-container,
+  .print-dashboard-container {
+    display: block !important;
+    visibility: visible !important;
+    width: 1480px !important;
+    min-width: 1480px !important;
+    max-width: 1480px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    position: static !important;
+    background: transparent !important;
+  }
+
+  /* 4. 嚴格隱藏浮動視窗、彈窗遮罩、選單、側邊欄與操作性按鈕，保留數據卡片內容按鈕 */
+  .fixed,
+  [role="dialog"],
+  [role="menu"],
+  .backdrop-blur-xs,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur,
+  .modal-overlay,
+  .toast-container,
+  aside,
+  nav,
+  header,
+  .no-print,
+  .print-hide,
+  .hidden-for-pdf,
+  [data-html2canvas-ignore="true"],
+  button.no-print,
+  button.print-hide,
+  button.print-action-btn,
+  #btn-export-excel,
+  #btn-prev-quarter,
+  #btn-next-quarter,
+  input:not([type="checkbox"]),
+  select,
+  .print-controls,
+  #quarter-timeline-slider {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  /* 5. 所有儀表板卡片防斷頁與嚴格邊距設定 (排除表格標籤，保持原 Grid 與 Flex 佈局) */
+  .bg-white.rounded-xl:not(tr),
+  .bg-white.rounded-2xl:not(tr),
+  [data-pdf-block="true"]:not(tr):not(tbody):not(thead),
+  .pdf-block:not(tr),
+  .pdf-block-avoid:not(tr):not(thead):not(tbody):not(td):not(th),
+  .print-avoid-break:not(tr) {
+    break-inside: avoid-page !important;
+    page-break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    margin-top: 0 !important;
+    margin-bottom: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 5-1. 強制換頁輔助類別 (由 PDF 遮罩模式分割輔助線動態注入) */
+  .pdf-break-before,
+  [data-pdf-page-break="true"] {
+    break-before: page !important;
+    page-break-before: always !important;
+    margin-top: 24px !important;
+  }
+
+  /* 6. 主要功能區塊明確設定 margin-bottom 增加斷頁緩衝空間 */
+  #print-content-container section,
+  #print-content-container > div,
+  .print-wrapper > div {
+    margin-bottom: 20px !important;
+  }
+
+  /* 7. 表格專用換頁與平滑過渡規則：thead 每頁重複，tr/td 嚴格防斷頁並設定嚴格邊距避免跨頁截斷 */
+  table,
+  table.pdf-block-avoid,
+  .pdf-block-avoid table {
+    border-collapse: collapse !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+    margin-bottom: 16px !important;
+  }
+
+  thead,
+  thead.pdf-block-avoid {
+    display: table-header-group !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-after: avoid-page !important;
+  }
+
+  tbody,
+  tbody.pdf-block-avoid {
+    display: table-row-group !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  tr,
+  tr.pdf-block-avoid,
+  .pdf-block-avoid tr,
+  tbody tr,
+  thead tr {
+    display: table-row !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    break-after: auto !important;
+    break-before: auto !important;
+    height: auto !important;
+  }
+
+  td,
+  th,
+  tr.pdf-block-avoid > td,
+  tr.pdf-block-avoid > th {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    vertical-align: middle !important;
+  }
+
+  /* 8. 展開所有內部水平與垂直捲軸 */
+  .overflow-x-auto,
+  .overflow-y-auto,
+  .overflow-auto,
+  [class*="max-h-"] {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* 9. 專用列印頁眉與頁腳顯示 */
+  .print-only {
+    display: block !important;
+  }
+}
+
+/* ==========================================================================
+   列印版面最佳化模式 (Print Layout Optimization Mode)
+   使用者點擊「列印版面最佳化」按鈕後觸發之專屬 CSS 樣式類別
+   強制隱藏導航 UI、側邊欄、頂端功能列，並鎖定 A3 橫向排版規格
+   ========================================================================== */
+body.print-layout-optimized-mode aside,
+body.print-layout-optimized-mode header,
+body.print-layout-optimized-mode nav,
+body.print-layout-optimized-mode #main-topbar,
+body.print-layout-optimized-mode button#btn-expand-sidebar-floating,
+body.print-layout-optimized-mode .no-print,
+body.print-layout-optimized-mode .print-hide,
+body.print-layout-optimized-mode .modal-overlay,
+body.print-layout-optimized-mode [data-guide-panel="true"],
+body.print-layout-optimized-mode .guide-panel,
+body.print-layout-optimized-mode .guide-card,
+body.print-layout-optimized-mode .formula-guide,
+body.print-layout-optimized-mode .instruction-panel,
+body.print-layout-optimized-mode .tips-banner {
+  display: none !important;
+}
+
+body.print-layout-optimized-mode #print-content-container,
+body.print-layout-optimized-mode #project-plan-dashboard-content,
+body.print-layout-optimized-mode #candidate-talent-dashboard-content,
+body.print-layout-optimized-mode #quarterly-demand-dashboard-content,
+body.print-layout-optimized-mode #manpower-dashboard-container {
+  width: 1480px !important;
+  max-width: 1480px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}

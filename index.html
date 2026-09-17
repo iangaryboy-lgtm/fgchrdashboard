@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>遠雄營造HR儀表板</title>
+    <meta name="description" content="遠雄營造HR戰情室：整合開案計畫儀表板、案場人力預測與供需戰情看板、案主管人才庫儀表板、案主管供需儀表板、意願問卷調查、專業訓練學習專區、後台履歷與證照管理，以及全域設定之可視化部門主管模組權限矩陣快速指派功能。" />
+    <meta property="og:title" content="遠雄營造HR儀表板" />
+    <meta property="og:description" content="遠雄營造HR戰情室：整合開案計畫儀表板、案場人力預測與供需戰情看板、案主管人才庫儀表板、案主管供需儀表板、意願問卷調查、專業訓練學習專區、後台履歷與證照管理，以及全域設定之可視化部門主管模組權限矩陣快速指派功能。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased font-['Noto_Sans_TC',sans-serif]">
+    <div id="root">
+      <div id="farglory-initial-loader" style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; padding: 20px; text-align: center;">
+        <div style="width: 36px; height: 36px; border: 3px solid #e2e8f0; border-top-color: #2563eb; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+        <p style="margin-top: 16px; font-size: 14px; font-weight: 600; color: #334155;">遠雄營造 HR 儀表板載入中...</p>
+        <p id="farglory-loader-hint" style="margin-top: 6px; font-size: 12px; color: #64748b; max-width: 380px; line-height: 1.5;">正在啟動系統與同步雲端狀態，請稍候...</p>
+      </div>
+      <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+      </style>
+    </div>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
